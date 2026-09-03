@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prayer Times</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="top-bar">
+      <div class="brand">
+        <div class="brand-icon" id="brandIcon">
+          <img id="brandIconImg" src="icons/variants/v1_emerald_48.png" alt="Logo" class="brand-icon-img">
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title" data-i18n="app_title">Prayer Times</h1>
+          <div class="brand-dates">
+            <span class="gregorian-date" id="gregorianDate">3-sentabr</span>
+            <span class="date-sep">·</span>
+            <span class="hijri-date" id="hijriDate">21 Safar 1448h</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Symmetrical, crisp settings gear icon -->
+        <button id="settingsBtn" class="icon-button" title="Sozlamalar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="mainView" class="view">
+      <!-- Hero Countdown Card -->
+      <section class="hero-card">
+        <div class="hero-glow"></div>
+        <div class="hero-header">
+          <span class="live-indicator">
+            <span class="pulse-dot"></span>
+            <span id="nextPrayerLabel" data-i18n="next_tag">NAVBATDAGI</span>
+          </span>
+          <span class="hero-prayer-time" id="nextPrayerTime">16:58</span>
+        </div>
+
+        <div class="hero-body">
+          <div class="hero-prayer-name" id="nextPrayerName">Asr namozi</div>
+          <div class="hero-timer" id="countdownTimer">00:00:00</div>
+        </div>
+      </section>
+
+      <!-- Prayer Times Cards -->
+      <section class="prayer-list" id="prayerTimesGrid">
+        <!-- Bomdod -->
+        <div class="prayer-row" data-prayer="Fajr">
+          <span class="p-name" data-i18n="fajr">Bomdod</span>
+          <div class="p-right">
+            <span class="p-status" id="status-Fajr"></span>
+            <span class="p-time" id="time-Fajr">04:29</span>
+          </div>
+        </div>
+
+        <!-- Quyosh -->
+        <div class="prayer-row" data-prayer="Sunrise">
+          <span class="p-name" data-i18n="sunrise">Quyosh</span>
+          <div class="p-right">
+            <span class="p-status" id="status-Sunrise"></span>
+            <span class="p-time" id="time-Sunrise">05:51</span>
+          </div>
+        </div>
+
+        <!-- Peshin -->
+        <div class="prayer-row" data-prayer="Dhuhr">
+          <span class="p-name" data-i18n="dhuhr">Peshin</span>
+          <div class="p-right">
+            <span class="p-status" id="status-Dhuhr"></span>
+            <span class="p-time" id="time-Dhuhr">12:22</span>
+          </div>
+        </div>
+
+        <!-- Asr -->
+        <div class="prayer-row" data-prayer="Asr">
+          <span class="p-name" data-i18n="asr">Asr</span>
+          <div class="p-right">
+            <span class="p-status" id="status-Asr"></span>
+            <span class="p-time" id="time-Asr">16:58</span>
+          </div>
+        </div>
+
+        <!-- Shom -->
+        <div class="prayer-row" data-prayer="Maghrib">
+          <span class="p-name" data-i18n="maghrib">Shom</span>
+          <div class="p-right">
+            <span class="p-status" id="status-Maghrib"></span>
+            <span class="p-time" id="time-Maghrib">18:57</span>
+          </div>
+        </div>
+
+        <!-- Xufton -->
+        <div class="prayer-row" data-prayer="Isha">
+          <span class="p-name" data-i18n="isha">Xufton</span>
+          <div class="p-right">
+            <span class="p-status" id="status-Isha"></span>
+            <span class="p-time" id="time-Isha">20:15</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Settings View (Initially Hidden) -->
+    <section id="settingsView" class="view hidden">
+      <div class="settings-top">
+        <button id="closeSettingsBtn" class="back-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          <span data-i18n="back_btn">Orqaga</span>
+        </button>
+        <h2 class="settings-title" data-i18n="settings_title">Sozlamalar</h2>
+        <div style="width: 24px;"></div>
+      </div>
+
+      <div class="settings-body">
+        <!-- 1. Cascading Location: Davlat -> Viloyat -> Shahar -->
+        <div class="settings-group" id="locationGroup">
+          <label class="group-label" data-i18n="location_group">JOYLASHUV (3 BOSQICHLI)</label>
+          <div class="settings-card">
+            <div class="setting-row">
+              <span data-i18n="country_label">1. Davlat</span>
+              <select id="countrySelect" class="clean-select"></select>
+            </div>
+            <div class="setting-row">
+              <span data-i18n="province_label">2. Viloyat / Hudud</span>
+              <select id="provinceSelect" class="clean-select"></select>
+            </div>
+            <div class="setting-row">
+              <span data-i18n="citySelectLabel">3. Shahar</span>
+              <select id="citySelect" class="clean-select"></select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Calculation Source -->
+        <div class="settings-group">
+          <label class="group-label" data-i18n="source_group">HISOBLASH MANBASI</label>
+          <div class="settings-card">
+            <div class="setting-row">
+              <span data-i18n="source_title">Taqvim uslubi</span>
+              <select id="sourceSelect" class="clean-select">
+                <option value="muslim_uz" selected data-i18n="source_omi">🇺🇿 O'MI (muslim.uz) — O'zbekiston</option>
+                <option value="diyanet" data-i18n="source_diyanet">🇹🇷 Diyonat — Turkiya</option>
+                <option value="umm_al_qura" data-i18n="source_umm_al_qura">🇸🇦 Umm al-Qura (Makka) — Saudiya</option>
+                <option value="dum_rf" data-i18n="source_dum_rf">🇷🇺 DUM RF — Rossiya</option>
+                <option value="egypt" data-i18n="source_egypt">🇪🇬 Misr Fatvo Mahkamasi</option>
+                <option value="dubai" data-i18n="source_dubai">🇦🇪 Dubay va BAA (Awqaf)</option>
+                <option value="isna" data-i18n="source_isna">🇺🇸 ISNA — Shimoliy Amerika</option>
+                <option value="mwl" data-i18n="source_mwl">🌍 Dunyo Islom Markazi (MWL)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Language Selection -->
+        <div class="settings-group">
+          <label class="group-label" data-i18n="lang_group">TIL / LANGUAGE</label>
+          <div class="settings-card">
+            <div class="setting-row">
+              <span data-i18n="lang_title">Dastur tili</span>
+              <div class="custom-dropdown" id="langDropdown">
+                <button type="button" class="custom-dropdown-btn" id="langDropdownBtn">
+                  <div class="dropdown-selected-content" id="selectedLangDisplay">
+                    <span class="flag-badge">🇺🇿</span>
+                    <span class="lang-label-text">O'zbekcha (Lotin)</span>
+                  </div>
+                  <svg class="dropdown-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+                <div class="dropdown-menu hidden" id="langDropdownMenu">
+                  <div class="dropdown-item" data-lang="uz_lat">
+                    <span class="flag-badge">🇺🇿</span>
+                    <span>O'zbekcha (Lotin)</span>
+                  </div>
+                  <div class="dropdown-item" data-lang="uz_cyr">
+                    <span class="flag-badge">🇺🇿</span>
+                    <span>Ўзбекча (Кирилл)</span>
+                  </div>
+                  <div class="dropdown-item" data-lang="qr">
+                    <img src="icons/flags/qr.png" class="flag-badge-img" alt="Qaraqalpaqstan">
+                    <span>Qaraqalpaqsha</span>
+                  </div>
+                  <div class="dropdown-item" data-lang="kz">
+                    <span class="flag-badge">🇰🇿</span>
+                    <span>Қазақша</span>
+                  </div>
+                  <div class="dropdown-item" data-lang="kg">
+                    <span class="flag-badge">🇰🇬</span>
+                    <span>Кыргызча</span>
+                  </div>
+                  <div class="dropdown-item" data-lang="tj">
+                    <span class="flag-badge">🇹🇯</span>
+                    <span>Тоҷикӣ</span>
+                  </div>
+                  <div class="dropdown-item" data-lang="tr">
+                    <span class="flag-badge">🇹🇷</span>
+                    <span>Türkçe</span>
+                  </div>
+                  <div class="dropdown-item" data-lang="ru">
+                    <span class="flag-badge">🇷🇺</span>
+                    <span>Русский</span>
+                  </div>
+                  <div class="dropdown-item" data-lang="en">
+                    <span class="flag-badge">🇬🇧</span>
+                    <span>English</span>
+                  </div>
+                </div>
+              </div>
+              <select id="langSelect" class="hidden">
+                <option value="uz_lat">O'zbekcha (Lotin)</option>
+                <option value="uz_cyr">Ўзбекча (Кирилл)</option>
+                <option value="qr">Qaraqalpaqsha</option>
+                <option value="kz">Қазақша</option>
+                <option value="kg">Кыргызча</option>
+                <option value="tj">Тоҷикӣ</option>
+                <option value="tr">Türkçe</option>
+                <option value="ru">Русский</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Theme Selection (Modern Segmented Pill Control) -->
+        <div class="settings-group">
+          <label class="group-label" data-i18n="theme_group">MAVZU (TEMA)</label>
+          <div class="theme-segmented-bar" id="themeSegmentedBar">
+            <button type="button" class="theme-segment-btn active" data-theme="dark">
+              <span class="theme-icon">🌙</span>
+              <span class="theme-text" data-i18n="theme_dark_short">Qorong'u</span>
+            </button>
+            <button type="button" class="theme-segment-btn" data-theme="light">
+              <span class="theme-icon">☀️</span>
+              <span class="theme-text" data-i18n="theme_light_short">Yorug'</span>
+            </button>
+            <button type="button" class="theme-segment-btn" data-theme="auto">
+              <span class="theme-icon">⚡</span>
+              <span class="theme-text" data-i18n="theme_auto_short">Avto</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. Sound selection -->
+        <div class="settings-group">
+          <label class="group-label" data-i18n="sound_group">OVOZLI ESLATMA</label>
+          <div class="settings-card">
+            <div class="setting-row">
+              <span data-i18n="sound_type">Ovoz turi</span>
+              <select id="soundSelect" class="clean-select">
+                <optgroup label="Mayin musiqiy ohanglar">
+                  <option value="soft_chime" selected data-i18n="sound_chime">🔔 Mayin Shamol Qo'ng'irog'i (Chime)</option>
+                  <option value="harp" data-i18n="sound_harp">🪕 Mayin Arfa (Harp)</option>
+                  <option value="piano" data-i18n="sound_piano">🎹 Sokin Pianino (Piano)</option>
+                  <option value="gong" data-i18n="sound_gong">🏮 Sharqona Gong (Deep Gong)</option>
+                </optgroup>
+                <optgroup label="Qisqa signallar">
+                  <option value="digital_bell" data-i18n="sound_bell">🛎️ Raqamli Qo'ng'iroq (Ding-Dong)</option>
+                  <option value="marimba" data-i18n="sound_marimba">🪵 Marimba (Yog'och zarbi)</option>
+                  <option value="pulse" data-i18n="sound_pulse">💧 Tomchi / Puls (Water Drop)</option>
+                </optgroup>
+                <optgroup label="Boshqa">
+                  <option value="mute" data-i18n="sound_mute">🔇 Ovozsiz (Faqat xabar)</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="setting-row volume-row">
+              <span data-i18n="volume">Balandlik</span>
+              <div class="slider-wrapper">
+                <input type="range" id="volumeSlider" min="0" max="100" value="80" class="clean-slider">
+                <span id="volumeValue" class="vol-label">80%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Icon selection (Visual 4-Card Selector) -->
+        <div class="settings-group">
+          <label class="group-label" data-i18n="icon_group">IKONKA KO'RINISHI (LOGO)</label>
+          <div class="icon-selector-grid" id="iconSelectorGrid">
+            <button type="button" class="icon-card-btn active" data-icon="v1_emerald" title="Zumrad Hilol">
+              <img src="icons/variants/v1_emerald_48.png" alt="Zumrad" class="icon-card-img">
+              <span class="icon-card-name">Zumrad</span>
+            </button>
+            <button type="button" class="icon-card-btn" data-icon="v2_mosque" title="Oltin Masjid">
+              <img src="icons/variants/v2_mosque_48.png" alt="Masjid" class="icon-card-img">
+              <span class="icon-card-name">Masjid</span>
+            </button>
+            <button type="button" class="icon-card-btn" data-icon="v3_sunset" title="Shom Shafag'i">
+              <img src="icons/variants/v3_sunset_48.png" alt="Shafaq" class="icon-card-img">
+              <span class="icon-card-name">Shafaq</span>
+            </button>
+            <button type="button" class="icon-card-btn" data-icon="v4_star" title="8 Qirrali Yulduz">
+              <img src="icons/variants/v4_star_48.png" alt="Yulduz" class="icon-card-img">
+              <span class="icon-card-name">Yulduz</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- System Notification Note -->
+        <div class="info-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span data-i18n="notif_note">Brauzer fonda bo'lsa ham kompyuter ekranida bildirishnoma chiqadi va ovoz yangraydi.</span>
+        </div>
+
+        <!-- Action test buttons -->
+        <div class="settings-buttons">
+          <button id="testSoundBtn" class="test-btn">
+            <span>🔊</span> <span data-i18n="test_sound">Ovozni sinash</span>
+          </button>
+          <button id="testNotificationBtn" class="test-btn primary">
+            <span>🔔</span> <span data-i18n="test_notif">Xabarnomani sinash</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
