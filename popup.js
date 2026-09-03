@@ -2,7 +2,7 @@
 
 import { fetchPrayerTimes, getNextPrayer } from './prayerTimes.js';
 import { TRANSLATIONS } from './i18n.js';
-import { COUNTRIES, findLocationByCity } from './locations.js';
+import { PROVINCES, findLocationByCity } from './locations.js';
 
 let countdownInterval = null;
 let currentTimings = null;
@@ -232,50 +232,29 @@ function startCountdown() {
   countdownInterval = setInterval(update, 1000);
 }
 
-// 3 Bosqichli Joylashuv dropdownlarini to'ldirish
+// Viloyat va Shahar/Tuman dropdownlarini to'ldirish
 function setupLocationDropdowns(currentCityId) {
-  const countrySelect = document.getElementById('countrySelect');
   const provinceSelect = document.getElementById('provinceSelect');
   const citySelect = document.getElementById('citySelect');
 
-  if (!countrySelect || !provinceSelect || !citySelect) return;
+  if (!provinceSelect || !citySelect) return;
 
   const locInfo = findLocationByCity(currentCityId);
 
-  // 1. Davlatlarni to'ldirish
-  countrySelect.innerHTML = '';
-  for (const [cKey, country] of Object.entries(COUNTRIES)) {
+  // 1. Viloyatlarni to'ldirish
+  provinceSelect.innerHTML = '';
+  for (const [pKey, province] of Object.entries(PROVINCES)) {
     const opt = document.createElement('option');
-    opt.value = cKey;
-    opt.textContent = country.name;
-    if (cKey === locInfo.countryKey) opt.selected = true;
-    countrySelect.appendChild(opt);
+    opt.value = pKey;
+    opt.textContent = province.name;
+    if (pKey === locInfo.provinceKey) opt.selected = true;
+    provinceSelect.appendChild(opt);
   }
 
-  // 2. Viloyatlarni to'ldirish funksiyasi
-  function populateProvinces(cKey, selectedPKey) {
-    provinceSelect.innerHTML = '';
-    const country = COUNTRIES[cKey];
-    if (!country) return;
-
-    let firstPKey = null;
-    for (const [pKey, province] of Object.entries(country.provinces)) {
-      if (!firstPKey) firstPKey = pKey;
-      const opt = document.createElement('option');
-      opt.value = pKey;
-      opt.textContent = province.name;
-      if (pKey === selectedPKey) opt.selected = true;
-      provinceSelect.appendChild(opt);
-    }
-    return selectedPKey || firstPKey;
-  }
-
-  // 3. Shaharlarni to'ldirish funksiyasi
-  function populateCities(cKey, pKey, selectedCityKey) {
+  // 2. Shaharlarni to'ldirish funksiyasi
+  function populateCities(pKey, selectedCityKey) {
     citySelect.innerHTML = '';
-    const country = COUNTRIES[cKey];
-    if (!country) return;
-    const province = country.provinces[pKey];
+    const province = PROVINCES[pKey];
     if (!province) return;
 
     let firstCityKey = null;
@@ -290,30 +269,12 @@ function setupLocationDropdowns(currentCityId) {
     return selectedCityKey || firstCityKey;
   }
 
-  // Boshlang'ich to'ldirish
-  const activePKey = populateProvinces(locInfo.countryKey, locInfo.provinceKey);
-  populateCities(locInfo.countryKey, activePKey, currentCityId);
-
-  // Davlat o'zgarganda
-  countrySelect.onchange = async () => {
-    const newCountryKey = countrySelect.value;
-    const newCountry = COUNTRIES[newCountryKey];
-    const newPKey = populateProvinces(newCountryKey);
-    const newCityKey = populateCities(newCountryKey, newPKey);
-
-    let newSource = newCountry.defaultSource || 'muslim_uz';
-    const sourceSelect = document.getElementById('sourceSelect');
-    if (sourceSelect) sourceSelect.value = newSource;
-
-    await saveSettings({ city: newCityKey, source: newSource });
-    await render();
-  };
+  populateCities(locInfo.provinceKey, currentCityId);
 
   // Viloyat o'zgarganda
   provinceSelect.onchange = async () => {
-    const cKey = countrySelect.value;
     const pKey = provinceSelect.value;
-    const newCityKey = populateCities(cKey, pKey);
+    const newCityKey = populateCities(pKey);
 
     await saveSettings({ city: newCityKey });
     await render();
@@ -354,13 +315,11 @@ async function render() {
   }
 
   // Sozlamalarni UI elementlariga o'rnatish
-  const sourceSelect = document.getElementById('sourceSelect');
   const soundSelect = document.getElementById('soundSelect');
   const langSelect = document.getElementById('langSelect');
   const volumeSlider = document.getElementById('volumeSlider');
   const volumeValue = document.getElementById('volumeValue');
 
-  if (sourceSelect) sourceSelect.value = settings.source;
   if (soundSelect) soundSelect.value = settings.soundType;
   if (langSelect && settings.lang) langSelect.value = settings.lang;
   if (volumeSlider) {
@@ -385,7 +344,7 @@ async function render() {
 
   // 5. Tanlangan shahar bo'yicha vaqtlarni olish
   try {
-    const fetched = await fetchPrayerTimes(settings.city, settings.source);
+    const fetched = await fetchPrayerTimes(settings.city);
     if (fetched) {
       applyTimings(fetched);
     }
@@ -519,13 +478,6 @@ function setupEvents() {
     });
   }
 
-  // Hisoblash manbasi o'zgarganda
-  if (sourceSelect) {
-    sourceSelect.addEventListener('change', async (e) => {
-      await saveSettings({ source: e.target.value });
-      await render();
-    });
-  }
 
   // Ovoz tanlanganda
   if (soundSelect) {

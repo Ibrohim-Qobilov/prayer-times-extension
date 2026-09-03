@@ -1,4 +1,4 @@
-// prayerTimes.js - O'zbekiston va xalqaro davlatlar namoz vaqtlari
+// prayerTimes.js - 100% O'zbekiston Musulmonlari Idorasi (O'MI) rasmiy taqvimi
 
 import { getAllCitiesMap } from './locations.js';
 
@@ -13,77 +13,6 @@ export const PRAYER_NAMES = {
   Isha: "Xufton"
 };
 
-export const SOURCES = {
-  muslim_uz: {
-    id: "muslim_uz",
-    name: "O'zbekiston Musulmonlari Idorasi",
-    method: 3,
-    country: "Uzbekistan"
-  },
-  diyanet: {
-    id: "diyanet",
-    name: "Turkiya Diyonat (Diyanet)",
-    method: 13,
-    country: "Turkey"
-  },
-  umm_al_qura: {
-    id: "umm_al_qura",
-    name: "Saudiya Arabistoni (Umm al-Qura, Makka)",
-    method: 4,
-    country: "Saudi Arabia"
-  },
-  dum_rf: {
-    id: "dum_rf",
-    name: "Rossiya Musulmonlari Diniy Nazorati (DUM RF)",
-    method: 14,
-    country: "Russia"
-  },
-  egypt: {
-    id: "egypt",
-    name: "Misr Fatvo Mahkamasi (Egyptian Authority)",
-    method: 5,
-    country: "Egypt"
-  },
-  dubai: {
-    id: "dubai",
-    name: "Dubay va BAA (Awqaf)",
-    method: 16,
-    country: "United Arab Emirates"
-  },
-  isna: {
-    id: "isna",
-    name: "Shimoliy Amerika (ISNA - AQSH / Kanada)",
-    method: 2,
-    country: "United States"
-  },
-  mwl: {
-    id: "mwl",
-    name: "Dunyo Islom Markazi (Muslim World League)",
-    method: 3,
-    country: "Uzbekistan"
-  }
-};
-
-const HIJRI_MONTHS = [
-  "Muharram", "Safar", "Rabi'ul avval", "Rabi'us soniy",
-  "Jumodul avval", "Jumodus soniy", "Rajab", "Sha'bon",
-  "Ramazon", "Shavvol", "Zulqa'da", "Zulhijja"
-];
-
-function formatHijri(raw) {
-  if (!raw) return '';
-  const parts = String(raw).split('-');
-  if (parts.length === 3) {
-    const day = parts[0];
-    const mIdx = parseInt(parts[1], 10) - 1;
-    const year = parts[2];
-    if (mIdx >= 0 && mIdx < 12) {
-      return `${day} ${HIJRI_MONTHS[mIdx]} ${year}h`;
-    }
-  }
-  return raw;
-}
-
 export function getTodayKey() {
   const now = new Date();
   const year = now.getFullYear();
@@ -93,7 +22,7 @@ export function getTodayKey() {
 }
 
 /**
- * 1. Rasmiy O'zbekiston taqvimi (namoz-vaqti.uz - O'MI)
+ * Rasmiy O'zbekiston Musulmonlari Idorasi taqvimi (namoz-vaqti.uz)
  */
 async function fetchOfficialUzbekistan(regionSlug, todayKey) {
   const url = `https://namoz-vaqti.uz/index.php?format=json&region=${encodeURIComponent(regionSlug)}`;
@@ -121,41 +50,12 @@ async function fetchOfficialUzbekistan(regionSlug, todayKey) {
 }
 
 /**
- * 2. Xalqaro davlatlar hisob-kitobi (Turkiya Diyonat, Saudiya, Rossiya, Misr, BAA, ISNA, MWL)
- */
-async function fetchInternationalMethod(cityName, countryName, methodId = 3, todayKey) {
-  const url = `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(cityName)}&country=${encodeURIComponent(countryName)}&method=${methodId}&school=1`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`API status: ${res.status}`);
-  const json = await res.json();
-
-  if (json && json.data && json.data.timings) {
-    const raw = json.data.timings;
-    return {
-      Fajr: raw.Fajr.substring(0, 5),
-      Sunrise: raw.Sunrise.substring(0, 5),
-      Dhuhr: raw.Dhuhr.substring(0, 5),
-      Asr: raw.Asr.substring(0, 5),
-      Maghrib: raw.Maghrib.substring(0, 5),
-      Isha: raw.Isha.substring(0, 5),
-      date: todayKey,
-      city: cityName,
-      source: "Xalqaro hisob-kitob",
-      sourceId: String(methodId),
-      hijri: formatHijri(json.data.date?.hijri?.date) || ''
-    };
-  }
-  throw new Error("Xalqaro taqvim topilmadi");
-}
-
-/**
  * Asosiy yuklovchi funksiya
  */
-export async function fetchPrayerTimes(regionKey = 'tashkent', sourceKey = 'muslim_uz') {
+export async function fetchPrayerTimes(regionKey = 'tashkent') {
   const region = REGIONS[regionKey] || REGIONS.tashkent;
-  const sourceDef = SOURCES[sourceKey] || SOURCES.muslim_uz;
   const todayKey = getTodayKey();
-  const cacheKey = `prayer_v3_${regionKey}_${sourceKey}_${todayKey}`;
+  const cacheKey = `prayer_omi_${regionKey}_${todayKey}`;
 
   // 1. Keshni tekshirish
   try {
@@ -169,32 +69,17 @@ export async function fetchPrayerTimes(regionKey = 'tashkent', sourceKey = 'musl
     console.warn("Kesh xatosi:", e);
   }
 
-  // 2. Tanlangan mintaqa va manba bo'yicha olish
+  // 2. Rasmiy API'dan olish
   try {
-    let result = null;
-
-    // Agar O'zbekiston shahri bo'lsa va O'MI tanlangan bo'lsa
-    if (region.country === 'Uzbekistan' && sourceKey === 'muslim_uz') {
-      try {
-        result = await fetchOfficialUzbekistan(region.slug, todayKey);
-      } catch (err) {
-        console.warn("namoz-vaqti.uz yuklanmadi, xalqaro manba sinab ko'rilmoqda:", err);
-        result = await fetchInternationalMethod(region.name, region.country, 3, todayKey);
-      }
-    } else {
-      // Turkiya, Saudiya, Rossiya, Misr, BAA, AQSH, Qozog'iston, Tojikiston, Qirg'iziston...
-      const method = sourceDef.method || 3;
-      result = await fetchInternationalMethod(region.name, region.country, method, todayKey);
-    }
-
+    const result = await fetchOfficialUzbekistan(region.slug || 'Toshkent', todayKey);
     if (result) {
       if (typeof chrome !== 'undefined' && chrome.storage?.local) {
         await chrome.storage.local.set({ [cacheKey]: result });
       }
       return result;
     }
-  } catch (e) {
-    console.error("Yuklashda xatolik:", e);
+  } catch (err) {
+    console.warn("namoz-vaqti.uz yuklashda xatolik:", err);
   }
 
   // 3. Zaxira qiymat
@@ -206,9 +91,9 @@ export async function fetchPrayerTimes(regionKey = 'tashkent', sourceKey = 'musl
     Maghrib: "18:57",
     Isha: "20:15",
     date: todayKey,
-    city: region.name,
-    source: sourceDef.name,
-    sourceId: sourceKey,
+    city: region.name || "Toshkent shahri",
+    source: "O'zbekiston Musulmonlari Idorasi",
+    sourceId: "muslim_uz",
     fallback: true
   };
 }

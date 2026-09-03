@@ -11,8 +11,7 @@
   ],
   "host_permissions": [
     "https://namoz-vaqti.uz/*",
-    "https://islomapi.uz/*",
-    "https://api.aladhan.com/*"
+    "https://islomapi.uz/*"
   ],
   "action": {
     "default_popup": "popup.html",

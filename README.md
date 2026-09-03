@@ -54,23 +54,12 @@ Kengaytma ortiqcha yuklamalardan holi, batareya va xotirani tejovchi sof **Vanil
 
 ---
 
-## 📡 Ma'lumot manbalari (Data Sources)
+## 📡 Ma'lumot manbai (Official Data Source)
 
-Vaqtlar qayerdan olinadi?
-
-1. 🇺🇿 **O'zbekiston shaharlari uchun:**
-   * **Manba:** O'zbekiston Musulmonlari Idorasi (O'MI / `muslim.uz`).
-   * **API:** [namoz-vaqti.uz](https://namoz-vaqti.uz/) — O'zbekiston Respublikasi Vazirlar Mahkamasi huzuridagi Din ishlari bo'yicha qo'mita ma'lumotlariga asoslangan rasmiy manba.
-2. 🌍 **Xalqaro davlatlar va hisoblash usullari:**
-   * **Manba:** [Aladhan Prayer Times API](https://aladhan.com/)
-   * **Qo'llab-quvvatlanuvchi rasmiy kálendarlar:**
-     * 🇹🇷 **Diyanet İşleri Başkanlığı** (Turkiya)
-     * 🇸🇦 **Umm al-Qura universiteti** (Makka, Saudiya Arabistoni)
-     * 🇷🇺 **Rossiya Musulmonlari Diniy Nazorati** (DUM RF)
-     * 🇪🇬 **Misr Fatvo Mahkamasi** (Egyptian General Authority)
-     * 🇦🇪 **BAA Vaqflar vazirligi** (Awqaf Dubai)
-     * 🇺🇸 **ISNA** (Shimoliy Amerika Islom Jamiyati)
-     * 🌍 **Muslim World League (MWL)** (Dunyo Islom Birlespesi)
+* 🏛️ **Rasmiy manba:** O'zbekiston Musulmonlari Idorasi (O'MI / `muslim.uz`).
+* 🔗 **API portali:** [namoz-vaqti.uz](https://namoz-vaqti.uz/) — O'zbekiston Respublikasi Vazirlar Mahkamasi huzuridagi Din ishlari bo'yicha qo'mita ma'lumotlariga asoslangan rasmiy davlat taqvimi.
+* 📍 **Qamrov:** Toshkent shahri, Toshkent viloyati, Samarqand, Andijon, Farg'ona, Namangan, Buxoro, Navoiy, Qashqadaryo, Surxondaryo, Xorazm, Jizzax, Sirdaryo hamda Qoraqalpog'iston Respublikasi (barcha shahar va tumanlar).
+* 🛡️ **Hech qanday uchinchi tomon yoki chet el API'lari ishlatilmaydi:** Dastur faqat O'zbekistonning rasmiy tasdiqlangan taqvimi bilan 100% daqiqasigacha mos ishlaydi.
 
 ---
 

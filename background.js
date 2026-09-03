@@ -35,7 +35,7 @@ async function getSettings() {
 // Bugungi namozlar uchun signallarni (Alarms) rejalashtirish
 export async function setupAlarms() {
   const settings = await getSettings();
-  const timings = await fetchPrayerTimes(settings.city, settings.source);
+  const timings = await fetchPrayerTimes(settings.city);
   if (!timings) return;
 
   const now = new Date();
