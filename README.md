@@ -31,13 +31,12 @@ Kengaytma ortiqcha yuklamalardan holi, batareya va xotirani tejovchi sof **Vanil
 
 * 🎯 **100% Aniq vaqtlar:** O'zbekiston Musulmonlari Idorasining rasmiy taqvimiga daqiqasigacha mos.
 * ⏳ **Jonli Ortga Hisoblash (Live Countdown):** Keyingi namozgacha qolgan vaqt soniyalarigacha aniq hisoblab boriladi.
-* 🌍 **3 Bosqichli Joylashuv:**
-  * **Davlat** ➔ **Viloyat / Hudud** ➔ **Shahar** ierarxiyasi bo'yicha har bir nuqtaning aniq vaqtlari.
-  * O'zbekistonning barcha shahar va tumanlari, Qozog'iston, Qirg'iziston, Tojikiston, Turkiya, Rossiya, Saudiya Arabistoni, BAA va dunyo poytaxtlari.
-* 🌐 **9 ta Til qo'llab-quvvatlanadi:**
-  * 🇺🇿 O'zbekcha (Lotin)
+* 📍 **O‘zbekistonning barcha 14 ta hududi va 210+ tuman/shaharlari:**
+  * Toshkent shahri, Toshkent viloyati, Samarqand, Andijon, Farg‘ona, Namangan, Buxoro, Navoiy, Qashqadaryo, Surxondaryo, Xorazm, Jizzax, Sirdaryo hamda Qoraqalpog‘iston Respublikasining barcha tumanlarigacha daqiqasigacha aniq O‘MI rasmiy taqvimi.
+* 🌐 **9 ta Til qo‘llab-quvvatlanadi:**
+  * 🇺🇿 O‘zbekcha (Lotin)
   * 🇺🇿 Ўзбекча (Кирилл)
-  * 🌊 Qaraqalpaqsha *(Rasmiy to'lqinsimon bayrog'i bilan)*
+  * <img src="icons/flags/qr.png" width="18" height="13" alt="Qoraqalpog‘iston bayrog‘i" style="vertical-align: middle;" /> Qaraqalpaqsha
   * 🇰🇿 Қазақша
   * 🇰🇬 Кыргызча
   * 🇹🇯 Тоҷикӣ
