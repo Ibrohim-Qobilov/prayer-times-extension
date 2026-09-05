@@ -32,9 +32,16 @@ async function loadSettings() {
     volume: 0.8
   };
   try {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('theme')) defaults.theme = urlParams.get('theme');
+    if (urlParams.get('lang')) defaults.lang = urlParams.get('lang');
+
     if (typeof chrome !== 'undefined' && chrome.storage?.local) {
       const res = await chrome.storage.local.get(['settings']);
-      return res.settings ? { ...defaults, ...res.settings } : defaults;
+      const s = res.settings ? { ...defaults, ...res.settings } : defaults;
+      if (urlParams.get('theme')) s.theme = urlParams.get('theme');
+      if (urlParams.get('lang')) s.lang = urlParams.get('lang');
+      return s;
     }
   } catch (e) {
     console.warn("Storage xatosi:", e);
@@ -207,6 +214,7 @@ function startCountdown() {
     document.querySelectorAll('.prayer-row').forEach(r => r.classList.remove('current'));
     const activeRow = document.querySelector(`.prayer-row[data-prayer="${next.key}"]`);
     if (activeRow) {
+      activeRow.classList.remove('passed');
       activeRow.classList.add('current');
       const statusElem = document.getElementById(`status-${next.key}`);
       if (statusElem) statusElem.textContent = t.next;
